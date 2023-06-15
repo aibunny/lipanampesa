@@ -21,10 +21,10 @@ def LipaNaMpesaOnline():
         "Timestamp":time_stamp,
         "TransactionType":"CustomerPayBillOnline",
         "Amount":"5",
-        "PartyA":"600980",
+        "PartyA":os.getenv("PartyA"),
         "PartyB":os.getenv("BusinessShortCode"),
         "PhoneNumber":"254759008773",
-        "CallBackURL":"https://sandbox.co.ke/",
+        "CallBackURL":os.getenv("CALLBACKURL"),
         "AccountReference":"12345678",
         "TransactionDesc":"Pay Something",   
         
