@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from models import LipaNaMpesa
+from . models import LipaNaMpesa
 
 
 class ViaLipaNaMpesa(serializers.Serializer):
