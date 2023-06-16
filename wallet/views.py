@@ -4,11 +4,19 @@ from rest_framework.permissions import AllowAny
 from rest_framework.generics import CreateAPIView
 from . models import LipaNaMpesa
 from . serializers import ViaLipaNaMpesa
+
+
+from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+
 class LNMView(CreateAPIView):
     serializer_class = ViaLipaNaMpesa
-    permission_classes= [AllowAny]
-    def create(self,request):
-        print(request.data,"this is request.data")
+    permission_classes = [AllowAny]
+
+    def create(self, request, *args, **kwargs):
+        mpesa_response = request.data
+        
         '''
         SAMPLE REQUEST
         {'Body': {'stkCallback': 
@@ -27,8 +35,7 @@ class LNMView(CreateAPIView):
             }
             }
         }
-                '''
-        mpesa_response = request.data
+        '''
 
         MerchantRequestID = mpesa_response['Body']['stkCallback']['MerchantRequestID']
         CheckoutRequestID = mpesa_response['Body']['stkCallback']['CheckoutRequestID']
@@ -42,3 +49,9 @@ class LNMView(CreateAPIView):
         PhoneNumber = next((item['Value'] for item in metadata if item['Name'] == 'PhoneNumber'), None)
 
         print(MerchantRequestID, CheckoutRequestID, ResultCode, ResultDesc, Amount, MpesaReceiptNumber, TransactionDate, PhoneNumber)
+
+        # Perform additional operations if needed
+
+        return Response(status=201)
+
+        
