@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from datetime import datetime
 from rest_framework.permissions import AllowAny
 from rest_framework.generics import CreateAPIView
 from . models import LipaNaMpesa
@@ -45,7 +46,7 @@ class LNMView(CreateAPIView):
         metadata = mpesa_response['Body']['stkCallback']['CallbackMetadata']['Item']
         Amount = next((item['Value'] for item in metadata if item['Name'] == 'Amount'), None)
         MpesaReceiptNumber = next((item['Value'] for item in metadata if item['Name'] == 'MpesaReceiptNumber'), None)
-        TransactionDate = next((item['Value'] for item in metadata if item['Name'] == 'TransactionDate'), None)
+        TransactionDate = datetime.strptime(next((item['Value'] for item in metadata if item['Name'] == 'TransactionDate'), None),"%Y%m%d%H%M%S")
         PhoneNumber = next((item['Value'] for item in metadata if item['Name'] == 'PhoneNumber'), None)
 
         print(MerchantRequestID, CheckoutRequestID, ResultCode, ResultDesc, Amount, MpesaReceiptNumber, TransactionDate, PhoneNumber)
