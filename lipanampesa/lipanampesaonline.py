@@ -20,7 +20,7 @@ def LipaNaMpesaOnline():
         "Password":password,
         "Timestamp":time_stamp,
         "TransactionType":"CustomerPayBillOnline",
-        "Amount":"5",
+        "Amount":"1",
         "PartyA":os.getenv("PartyA"),
         "PartyB":os.getenv("BusinessShortCode"),
         "PhoneNumber":"254759008773",
