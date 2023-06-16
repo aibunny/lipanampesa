@@ -46,7 +46,8 @@ class LNMView(CreateAPIView):
         metadata = mpesa_response['Body']['stkCallback']['CallbackMetadata']['Item']
         Amount = next((item['Value'] for item in metadata if item['Name'] == 'Amount'), None)
         MpesaReceiptNumber = next((item['Value'] for item in metadata if item['Name'] == 'MpesaReceiptNumber'), None)
-        TransactionDate = datetime.strptime(next((item['Value'] for item in metadata if item['Name'] == 'TransactionDate'), None),"%Y%m%d%H%M%S")
+        transaction_date = next((item['Value'] for item in metadata if item['Name'] == 'TransactionDate'), None)
+        TransactionDate = datetime.strptime(str(transaction_date), "%Y%m%d%H%M%S")
         PhoneNumber = next((item['Value'] for item in metadata if item['Name'] == 'PhoneNumber'), None)
 
         print(MerchantRequestID, CheckoutRequestID, ResultCode, ResultDesc, Amount, MpesaReceiptNumber, TransactionDate, PhoneNumber)
