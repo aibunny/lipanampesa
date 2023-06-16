@@ -27,18 +27,18 @@ class LNMView(CreateAPIView):
             }
             }
         }
-        '''
+                '''
         mpesa_response = request.data
 
-MerchantRequestID = mpesa_response['Body']['stkCallback']['MerchantRequestID']
-CheckoutRequestID = mpesa_response['Body']['stkCallback']['CheckoutRequestID']
-ResultCode = mpesa_response['Body']['stkCallback']['ResultCode']
-ResultDesc = mpesa_response['Body']['stkCallback']['ResultDesc']
+        MerchantRequestID = mpesa_response['Body']['stkCallback']['MerchantRequestID']
+        CheckoutRequestID = mpesa_response['Body']['stkCallback']['CheckoutRequestID']
+        ResultCode = mpesa_response['Body']['stkCallback']['ResultCode']
+        ResultDesc = mpesa_response['Body']['stkCallback']['ResultDesc']
 
-metadata = mpesa_response['Body']['stkCallback']['CallbackMetadata']['Item']
-Amount = next((item['Value'] for item in metadata if item['Name'] == 'Amount'), None)
-MpesaReceiptNumber = next((item['Value'] for item in metadata if item['Name'] == 'MpesaReceiptNumber'), None)
-TransactionDate = next((item['Value'] for item in metadata if item['Name'] == 'TransactionDate'), None)
-PhoneNumber = next((item['Value'] for item in metadata if item['Name'] == 'PhoneNumber'), None)
+        metadata = mpesa_response['Body']['stkCallback']['CallbackMetadata']['Item']
+        Amount = next((item['Value'] for item in metadata if item['Name'] == 'Amount'), None)
+        MpesaReceiptNumber = next((item['Value'] for item in metadata if item['Name'] == 'MpesaReceiptNumber'), None)
+        TransactionDate = next((item['Value'] for item in metadata if item['Name'] == 'TransactionDate'), None)
+        PhoneNumber = next((item['Value'] for item in metadata if item['Name'] == 'PhoneNumber'), None)
 
-print(MerchantRequestID, CheckoutRequestID, ResultCode, ResultDesc, Amount, MpesaReceiptNumber, TransactionDate, PhoneNumber)
+        print(MerchantRequestID, CheckoutRequestID, ResultCode, ResultDesc, Amount, MpesaReceiptNumber, TransactionDate, PhoneNumber)
