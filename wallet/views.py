@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from rest_framework.permissions import AllowAny
 from rest_framework.generics import CreateAPIView
-from . models import LipaNaMpesa
+from . models import LipaNaMpesaTransactions
 from . serializers import ViaLipaNaMpesa
 
 
@@ -20,7 +20,7 @@ class LNMView(CreateAPIView):
         
         '''
         SAMPLE REQUEST
-        {'Body': {'stkCallback': 
+        {'Body': {'stkCallback':   
             {'MerchantRequestID': '1452-135513598-1', 
             'CheckoutRequestID': 'ws_CO_15062023192557849759008773', 
             'ResultCode': 0,
@@ -50,10 +50,20 @@ class LNMView(CreateAPIView):
         TransactionDate = datetime.strptime(str(transaction_date), "%Y%m%d%H%M%S")
         PhoneNumber = next((item['Value'] for item in metadata if item['Name'] == 'PhoneNumber'), None)
 
-        print(MerchantRequestID, CheckoutRequestID, ResultCode, ResultDesc, Amount, MpesaReceiptNumber, TransactionDate, PhoneNumber)
-
-        # Perform additional operations if needed
-
+        
+        
+        my_model = LipaNaMpesaTransactions.objects.create(
+            MerchantRequestID =MerchantRequestID,
+            CheckoutRequestID = CheckoutRequestID,
+            ResultCode = ResultCode,
+            ResultDesc = ResultDesc,
+            Amount = Amount,
+            TransactionDate = TransactionDate,
+            PhoneNumber = PhoneNumber,
+        )
+        
+        my_model.save()
+        
         return Response(status=201)
 
         
