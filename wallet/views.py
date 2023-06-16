@@ -54,12 +54,13 @@ class LNMView(CreateAPIView):
         
         my_model = LipaNaMpesaTransactions.objects.create(
             MerchantRequestID =MerchantRequestID,
-            CheckoutRequestID = CheckoutRequestID,
+            CheckOutRequestID = CheckoutRequestID,
             ResultCode = ResultCode,
             ResultDesc = ResultDesc,
             Amount = Amount,
             TransactionDate = TransactionDate,
             PhoneNumber = PhoneNumber,
+            MpesaReceiptNumber = MpesaReceiptNumber
         )
         
         my_model.save()
