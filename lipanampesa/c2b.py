@@ -31,7 +31,7 @@ def register_url():
     print (response.text)
     
     
-register_url()
+#register_url()
   
 
 def simulate_C2b_Transaction():
@@ -39,19 +39,19 @@ def simulate_C2b_Transaction():
     api_url= "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/simulate"
     headers = {"Authorization":"Bearer %s" % access_token}
     
-    requests = {
+    request = {
         "ShortCode":os.getenv("ShortCode"),
-        "CommandId":"CustomerPayBillOnline",
+        "CommandID":"CustomerPayBillOnline",
         "Amount":"1",
         "Msisdn":"254759008773",
         "BillRefNumber":"12345678"
         }
-    response = response.post(api_url, json = request, headers = headers)
+    response = requests.post(api_url, json = request, headers = headers)
     print (response.text) 
 
 
 
-#simulate_C2b_Transaction()
+simulate_C2b_Transaction()
 
 
 
