@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from . models import LipaNaMpesaTransactions
+from . models import LipaNaMpesaTransactions, C2BPayments
 
 
 class ViaLipaNaMpesa(serializers.Serializer):
@@ -7,4 +7,9 @@ class ViaLipaNaMpesa(serializers.Serializer):
        models = LipaNaMpesaTransactions
        fields = '__all__'
        
-       
+
+
+class C2BSerializer(serializers.Serializer):
+   class Meta:
+       model = C2BPayments
+       fields = '__all__'
