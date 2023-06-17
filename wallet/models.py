@@ -11,4 +11,8 @@ class LipaNaMpesaTransactions(models.Model):
     MpesaReceiptNumber = models.TextField(max_length=15)
     TransactionDate = models.DateTimeField()
     PhoneNumber = models.CharField(max_length=13)
-    
+
+
+class C2BPayments(models.Model):
+    pass
+

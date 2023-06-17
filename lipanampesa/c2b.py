@@ -10,63 +10,49 @@ load_dotenv()
 
 
 time_stamp, password = generate_base64_password()
-
+print(time_stamp,password)
 # Runs once to allow safaricom register the urls
 def register_url():
     '''
     This registers the callback and validation urls
     '''
     
-    api_url= "https://sandbox.safaricom.co.ke/oauth/v1/registerurl"
-    headers = {"Authorization":"Bearer %s" % access_token}
+    api_url= "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl"
     access_token = generate_access_token()
-    requests = {
+    headers = {"Authorization":"Bearer %s" % access_token}
+    
+    request= {
         "ShortCode":os.getenv("ShortCode"),
-        "ResponseType":os.getenv("ResponseType"),
+        "ResponseType":"Completed",
         "ConfirmationURL":os.getenv("ConfirmationURL"),
         "ValidationURL":os.getenv("ValidationURL"),
         }
-    response = response.post(api_url, json = request, headers = headers)
+    response = requests.post(api_url, json = request, headers = headers)
     print (response.text)
+    
+    
+register_url()
+  
 
 def simulate_C2b_Transaction():
-    api_url= "https://sandbox.safaricom.co.ke/oauth/v1/registerurl"
+    access_token = generate_access_token()
+    api_url= "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/simulate"
     headers = {"Authorization":"Bearer %s" % access_token}
     
     requests = {
         "ShortCode":os.getenv("ShortCode"),
         "CommandId":"CustomerPayBillOnline",
-        "Amount":"2",
-        "Msisdn":"",
+        "Amount":"1",
+        "Msisdn":"254759008773",
+        "BillRefNumber":"12345678"
         }
     response = response.post(api_url, json = request, headers = headers)
     print (response.text) 
 
 
 
+#simulate_C2b_Transaction()
 
 
 
-
-access_token = Access_Token
-api_url = "https://sandbox.safaricom.co.ke/oauth/v1/generate"
-headers = {"Authorization": "Bearer %s" %access_token}
-request = {
-    "BusinessShortCode":"",
-    "Password":"bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",
-    "Timestamp":time_stamp,
-    "TransactionType":"",
-    "Amount":"5",
-    "PartyA":"600980",
-    "PartyB":"600000",
-    "PhoneNumber":"254759008773",
-    "CallBackURL":"",
-    "AccountReference":"",
-    "TransactionDesc":"",   
-    
-}
-
-response = requests.post(api_url, json=request, headers = headers)
-
-print(response.text)
 

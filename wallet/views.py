@@ -3,15 +3,18 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from rest_framework.permissions import AllowAny
 from rest_framework.generics import CreateAPIView
-from . models import LipaNaMpesaTransactions
-from . serializers import ViaLipaNaMpesa
+from . models import LipaNaMpesaTransactions, C2BPayments
+from . serializers import ViaLipaNaMpesa, C2BSerializer
 
 
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-class LNMView(CreateAPIView):
+class CallBackAPIView(CreateAPIView):
+    '''
+    Handles Callbacks for lipanampesa online
+    '''
     serializer_class = ViaLipaNaMpesa
     permission_classes = [AllowAny]
 
@@ -68,3 +71,25 @@ class LNMView(CreateAPIView):
         return Response(status=201)
 
         
+
+class C2BValidationAPIView(CreateAPIView):
+    serializer_class = C2BSerializer
+    permission_classes = [AllowAny]
+
+    def create(self, request, *args, **kwargs):
+        mpesa_response = request.data
+        print (mpesa_response)
+        
+        
+        return Response(status=201)
+    
+
+
+class C2BConfirmationAPIView(CreateAPIView):
+    serializer_class = C2BSerializer
+    permission_classes = [AllowAny,]
+    
+    def create( self,request):
+        print(request.data,"This is C2BConfirmationAPIView")
+        
+        return Response({"ResultDesc":0})    
