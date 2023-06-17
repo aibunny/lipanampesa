@@ -87,9 +87,9 @@ class C2BValidationAPIView(CreateAPIView):
 
 class C2BConfirmationAPIView(CreateAPIView):
     serializer_class = C2BSerializer
-    permission_classes = [AllowAny,]
+    permission_classes = [AllowAny]
     
-    def create( self,request):
+    def create(self, request, *args, **kwargs):
         print(request.data,"This is C2BConfirmationAPIView")
         
         return Response({"ResultDesc":0})    
