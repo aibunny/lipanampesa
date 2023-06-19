@@ -108,4 +108,4 @@ class C2BConfirmationAPIView(CreateAPIView):
             'FirstName': 'NICHOLAS', 'MiddleName': '','LastName': ''
           }
         '''
-        return Response({"ResultDesc":0})    
+        return Response({"ResultDesc":0})
