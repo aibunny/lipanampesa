@@ -12,4 +12,17 @@ class ViaLipaNaMpesa(serializers.Serializer):
 class C2BSerializer(serializers.Serializer):
    class Meta:
        model = C2BPayments
-       fields = '__all__'
+       fields = ('TransactionType', 
+                'TransID',
+                'TransTime',
+                'TransAmount', 
+                'BusinessShortCode',
+                'BillRefNumber', 
+                'InvoiceNumber', 
+                'OrgAccountBalance', 
+                'ThirdPartyTransID', 
+                'MSISDN', 
+                'FirstName', 
+                'MiddleName',
+                'LastName',
+                )

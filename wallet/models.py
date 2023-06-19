@@ -14,5 +14,17 @@ class LipaNaMpesaTransactions(models.Model):
 
 
 class C2BPayments(models.Model):
-    pass
-
+    TransactionType = models.CharField(max_length=15)
+    TransID = models.CharField(max_length=12)
+    TransTime = models.CharField(max_length=14)
+    TransAmount = models.CharField(max_length=12)
+    BusinessShortCode = models.CharField(max_length=6,blank= True, null = True) 
+    BillRefNumber = models.CharField(max_length=20,blank= True, null = True)
+    InvoiceNumber = models.CharField(max_length=20,blank= True, null = True)
+    OrgAccountBalance = models.CharField(max_length=12,blank= True, null = True)
+    ThirdPartyTransID = models.CharField(max_length=20,blank= True, null = True) 
+    MSISDN = models.CharField(max_length = 12,blank= True, null = True)
+    FirstName = models.CharField(max_length=25,blank= True, null = True)
+    MiddleName = models.CharField(max_length=25,blank= True, null = True)
+    LastName = models.CharField(max_length=25,blank= True, null = True)
+    

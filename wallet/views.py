@@ -86,10 +86,26 @@ class C2BValidationAPIView(CreateAPIView):
 
 
 class C2BConfirmationAPIView(CreateAPIView):
+    queryset = C2BPayments.objects.all()
     serializer_class = C2BSerializer
     permission_classes = [AllowAny]
     
     def create(self, request, *args, **kwargs):
         print(request.data,"This is C2BConfirmationAPIView")
-        
+        '''
+        C2b MPESA RESPONSE
+        {
+            'TransactionType': 'Pay Bill', 
+            'TransID': 'RFH31QHDKL',
+            'TransTime': '20230617134609',
+            'TransAmount': '1.00', 
+            'BusinessShortCode': '600980',
+            'BillRefNumber': '174379', 
+            'InvoiceNumber': '', 
+            'OrgAccountBalance': '5939204.60', 
+            'ThirdPartyTransID': '', 
+            'MSISDN': '94c392c311d522da950619227b3361752a42042db7e1e699b26e628305c68a88', 
+            'FirstName': 'NICHOLAS', 'MiddleName': '','LastName': ''
+          }
+        '''
         return Response({"ResultDesc":0})    
