@@ -15,7 +15,7 @@ def LipaNaMpesaOnline():
     access_token = generate_access_token()
     api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
     headers = {"Authorization": "Bearer %s" %access_token}
-    request = {
+    payload = {
         "BusinessShortCode":os.getenv("BusinessShortCode"),
         "Password":password,
         "Timestamp":time_stamp,
@@ -30,7 +30,7 @@ def LipaNaMpesaOnline():
         
     }
 
-    response = requests.post(api_url, json=request, headers = headers)
+    response = requests.post(api_url, json = payload, headers = headers)
 
     print(response.text)
 
