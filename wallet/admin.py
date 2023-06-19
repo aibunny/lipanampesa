@@ -7,7 +7,7 @@ class LNMTransactionsList(admin.ModelAdmin):
     list_display= ("PhoneNumber","Amount","MpesaReceiptNumber","TransactionDate")
 
 class C2BTransactionsList(admin.ModelAdmin):
-    list_display= ("MSISDN","TransAmount","TransID","TransactionDate","OrgAccountBalance")    
+    list_display= ("MSISDN","TransAmount","TransID","TransTime","OrgAccountBalance")    
     
 
 
