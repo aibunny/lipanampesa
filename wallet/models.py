@@ -2,6 +2,13 @@ from django.db import models
 
 # Create your models here.
 
+class successful_stk_pushes(models.Model):
+    MerchantRequestID = models.CharField(max_length=25)
+    CheckoutRequestID = models.CharField(max_length=25)
+    ResponseCode = models.CharField(max_length=25)
+    
+    
+
 class LipaNaMpesaTransactions(models.Model):
     MerchantRequestID = models.CharField(max_length=50)
     CheckOutRequestID = models.CharField(max_length=50)

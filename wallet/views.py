@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from rest_framework.permissions import AllowAny
 from rest_framework.generics import CreateAPIView
-from . models import LipaNaMpesaTransactions, C2BPayments
+from wallet.models import LipaNaMpesaTransactions, C2BPayments
 from . serializers import ViaLipaNaMpesa, C2BSerializer
 
 

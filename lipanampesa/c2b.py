@@ -11,10 +11,11 @@ load_dotenv()
 
 time_stamp, password = generate_base64_password()
 print(time_stamp,password)
-# Runs once to allow safaricom register the urls
+
 def register_url():
     '''
-    This registers the callback and validation urls
+    This registers the callback and validation urls 
+    should run only once in production
     '''
     
     api_url= "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl"
@@ -31,7 +32,7 @@ def register_url():
     print (response.text)
     
     
-#register_url()
+register_url()
   
 
 def simulate_C2b_Transaction():
