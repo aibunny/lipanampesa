@@ -1,12 +1,15 @@
+
+from utils import generate_base64_password,generate_access_token
+from wallet.models import successful_stk_pushes 
+from rest_framework.response import Response
+from dotenv import load_dotenv
 import requests
 import os
-from dotenv import load_dotenv
-from datetime import datetime
-from requests.auth import HTTPBasicAuth
-from utils import generate_base64_password,generate_access_token
-import base64
 
 load_dotenv()
+
+
+
 
 
 def LipaNaMpesaOnline():
@@ -21,7 +24,7 @@ def LipaNaMpesaOnline():
         "Timestamp":time_stamp,
         "TransactionType":"CustomerPayBillOnline",
         "Amount":"1",
-        "PartyA":os.getenv("PartyA"),
+        "PartyA":"254759008773",
         "PartyB":os.getenv("BusinessShortCode"),
         "PhoneNumber":"254759008773",
         "CallBackURL":os.getenv("CALLBACKURL"),
@@ -31,7 +34,22 @@ def LipaNaMpesaOnline():
     }
 
     response = requests.post(api_url, json = payload, headers = headers)
-
-    print(response.text)
+    json_response = response.text
+    
+    print(json_response)
+    
+    if json_response["ResponseCode"] == 0:
+        CheckoutRequestID = json_response['CheckoutRequestID']
+        ResponseCode = json_response["ResponseCode"]
+        MerchantRequestID = json_response["MerchantRequestID"]
+        
+        my_model = successful_stk_pushes.objects.create(CheckoutRequestID = CheckoutRequestID,
+                                                        MerchantRequestID= MerchantRequestID,
+                                                        ResponseCode=ResponseCode 
+                                                        )
+        my_model.save()
+    else:
+        Response({'message':"Error sending STK Push"})
+    
 
 LipaNaMpesaOnline()
