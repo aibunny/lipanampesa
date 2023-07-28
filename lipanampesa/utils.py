@@ -4,7 +4,7 @@ from datetime import datetime
 import base64
 import requests
 import os
-
+import json
 load_dotenv()
 
 
@@ -35,10 +35,19 @@ def generate_access_token():
     #request access_token from safaricom sandbox
     response = requests.get(api_URL,auth=HTTPBasicAuth(consumer_key,consumer_secret))
     #returns this {'access_token': '0RxdwuGHAGcDokGQKBB7mp****0E', 'expires_in': '3599'}
-    json_response = response.json()
-    Access_Token = json_response['access_token']
     
-    return Access_Token 
+    if response.status_code == 200:
+        try:
+            json_response = response.json()
+            print(json_response)
+            Access_Token = json_response['access_token']            
+            return Access_Token
+        except ValueError as e:
+            print(f"Error: Unable to decode JSON response. Content: {response.content}")
+            # Add additional error handling or logging if needed.
+    else:
+        print(f"Error: API call failed with status code {response.status_code}.")
+        # Add additional error handling or logging if needed.
 
    
     

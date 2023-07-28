@@ -1,5 +1,5 @@
 
-from utils import generate_base64_password,generate_access_token
+from . utils import generate_base64_password,generate_access_token
 from wallet.models import successful_stk_pushes 
 from rest_framework.response import Response
 from dotenv import load_dotenv
@@ -34,7 +34,7 @@ def LipaNaMpesaOnline():
     }
 
     response = requests.post(api_url, json = payload, headers = headers)
-    json_response = response.text
+    json_response = response.json()
     
     print(json_response)
     
@@ -52,4 +52,4 @@ def LipaNaMpesaOnline():
         Response({'message':"Error sending STK Push"})
     
 
-LipaNaMpesaOnline()
+

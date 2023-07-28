@@ -5,12 +5,13 @@ from rest_framework.permissions import AllowAny
 from rest_framework.generics import CreateAPIView
 from wallet.models import LipaNaMpesaTransactions, C2BPayments
 from . serializers import ViaLipaNaMpesa, C2BSerializer
-
+from lipanampesa.lipanampesaonline import LipaNaMpesaOnline
 
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
+LipaNaMpesaOnline()
 class CallBackAPIView(CreateAPIView):
     '''
     Handles Callbacks for lipanampesa online
@@ -18,34 +19,17 @@ class CallBackAPIView(CreateAPIView):
     serializer_class = ViaLipaNaMpesa
     permission_classes = [AllowAny]
 
-    def create(self, request, *args, **kwargs):
-        mpesa_response = request.data
-        
-        '''
-        SAMPLE REQUEST
-        {'Body': {'stkCallback':   
-            {'MerchantRequestID': '1452-135513598-1', 
-            'CheckoutRequestID': 'ws_CO_15062023192557849759008773', 
-            'ResultCode': 0,
-            'ResultDesc': 'The service request is processed successfully.',
-            'CallbackMetadata':   
-            {'Item':
-                [{'Name': 'Amount', 'Value': 5.0}, 
-                {'Name': 'MpesaReceiptNumber', 'Value': 'RFF65H3JY8'}, 
-                {'Name': 'Balance'},
-                {'Name': 'TransactionDate', 'Value': 20230615192452}, 
-                {'Name': 'PhoneNumber', 'Value': 254759008773}]
-                }
-            }
-            }
-        }
-        '''
+def create(self, request, *args, **kwargs):
+    mpesa_response = request.data
 
-        MerchantRequestID = mpesa_response['Body']['stkCallback']['MerchantRequestID']
-        CheckoutRequestID = mpesa_response['Body']['stkCallback']['CheckoutRequestID']
-        ResultCode = mpesa_response['Body']['stkCallback']['ResultCode']
-        ResultDesc = mpesa_response['Body']['stkCallback']['ResultDesc']
+    # Extract relevant data from mpesa_response
+    MerchantRequestID = mpesa_response['Body']['stkCallback']['MerchantRequestID']
+    CheckoutRequestID = mpesa_response['Body']['stkCallback']['CheckoutRequestID']
+    ResultCode = mpesa_response['Body']['stkCallback']['ResultCode']
+    ResultDesc = mpesa_response['Body']['stkCallback']['ResultDesc']
 
+    # Check if the ResultCode is 0 before proceeding with saving
+    if ResultCode == 0:
         metadata = mpesa_response['Body']['stkCallback']['CallbackMetadata']['Item']
         Amount = next((item['Value'] for item in metadata if item['Name'] == 'Amount'), None)
         MpesaReceiptNumber = next((item['Value'] for item in metadata if item['Name'] == 'MpesaReceiptNumber'), None)
@@ -53,22 +37,21 @@ class CallBackAPIView(CreateAPIView):
         TransactionDate = datetime.strptime(str(transaction_date), "%Y%m%d%H%M%S")
         PhoneNumber = next((item['Value'] for item in metadata if item['Name'] == 'PhoneNumber'), None)
 
-        
-        
         my_model = LipaNaMpesaTransactions.objects.create(
-            MerchantRequestID =MerchantRequestID,
-            CheckOutRequestID = CheckoutRequestID,
-            ResultCode = ResultCode,
-            ResultDesc = ResultDesc,
-            Amount = Amount,
-            TransactionDate = TransactionDate,
-            PhoneNumber = PhoneNumber,
-            MpesaReceiptNumber = MpesaReceiptNumber
+            MerchantRequestID=MerchantRequestID,
+            CheckOutRequestID=CheckoutRequestID,
+            ResultCode=ResultCode,
+            ResultDesc=ResultDesc,
+            Amount=Amount,
+            TransactionDate=TransactionDate,
+            PhoneNumber=PhoneNumber,
+            MpesaReceiptNumber=MpesaReceiptNumber
         )
-        
+
         my_model.save()
-        
-        return Response(status=201)
+
+    return Response(status=201)
+
 
         
 
