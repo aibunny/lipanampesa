@@ -2,7 +2,7 @@ from rest_framework import serializers
 from . models import LipaNaMpesaTransactions, C2BPayments
 
 
-class ViaLipaNaMpesa(serializers.Serializer):
+class ViaLipaNaMpesa(serializers.ModelSerializer):
    class Meta:
        models = LipaNaMpesaTransactions
        fields = '__all__'

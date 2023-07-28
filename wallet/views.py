@@ -11,6 +11,7 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
+LipaNaMpesaOnline()
 class CallBackAPIView(CreateAPIView):
     '''
     Handles Callbacks for lipanampesa online
